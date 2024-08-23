@@ -1,7 +1,7 @@
 mod actions;
 
-use actions::login::login;
-use actions::thread::send_message_to_thread;
+use actions::privatemessage::PrivateMessage;
+use actions::{login::login, privatemessage::send_pm_to_users};
 use chromiumoxide::browser::{Browser, BrowserConfig};
 use dotenv::dotenv;
 use futures::StreamExt;
@@ -24,7 +24,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut page = browser.new_page("https://forum.mafiascum.net").await?;
 
     login(&mut page).await?;
-    send_message_to_thread(&mut page, "12551", "Test").await?;
+
+    let pm = PrivateMessage {
+        subject: String::from("Subject"),
+        message: String::from("Content"),
+        recipients: vec!["JacksonVirgo".to_owned()],
+        cc: vec![],
+    };
+    send_pm_to_users(&mut page, pm).await?;
 
     browser.close().await?;
     handle.await;
