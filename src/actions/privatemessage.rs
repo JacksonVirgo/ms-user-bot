@@ -10,27 +10,6 @@ pub struct PrivateMessage {
     pub cc: Vec<String>,
 }
 
-impl PrivateMessage {
-    pub fn new<'a>(subject: &'a str, message: &'a str) -> Self {
-        Self {
-            subject: subject.to_owned(),
-            message: message.to_owned(),
-            recipients: vec![],
-            cc: vec![],
-        }
-    }
-
-    pub fn add_recipient(&mut self, recipient: &str) -> &mut Self {
-        self.recipients.push(recipient.to_owned());
-        self
-    }
-
-    pub fn add_cc(&mut self, cc: &str) -> &mut Self {
-        self.cc.push(cc.to_owned());
-        self
-    }
-}
-
 pub async fn send_pm_to_users(
     page: &mut Page,
     private_message: PrivateMessage,
